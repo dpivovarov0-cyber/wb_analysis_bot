@@ -1,0 +1,22 @@
+# venv / python
+venv/
+__pycache__/
+*.pyc
+
+# env secrets
+.env
+
+# mac
+.DS_Store
+
+# runtime artifacts
+logs/
+out/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/*.csv
+
+# IDE
+.idea/
+.vscode/

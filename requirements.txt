@@ -1,0 +1,7 @@
+requests
+python-dotenv
+matplotlib
+Pillow
+pandas
+python-telegram-bot==13.15
+
