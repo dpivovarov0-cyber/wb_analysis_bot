@@ -16,11 +16,13 @@ def fmt_money(rub: float) -> str:
     return f"{int(round(rub)):,}".replace(",", " ") + " ₽"
 
 def trend_icon(cur: float, prev: float) -> str:
+    if prev is None:
+        return "•"
     if cur > prev:
-        return "🔼"
+        return "▲"
     if cur < prev:
-        return "🔽"
-    return "⏺"
+        return "▼"
+    return "•"
 
 def fmt_delta(cur: float, prev: float, is_percent: bool = True) -> str:
     d = cur - prev
@@ -83,12 +85,12 @@ def main():
     cpo_p = (spend_p / orders_p) if orders_p else 0.0
 
     text = (
-        f"Отчет за {dt_y} (вчера)\n\n"
-        f"WB\n"
-        f"Переходы: {fmt_int(open_y)} {trend_icon(open_y, open_p)} {fmt_delta(open_y, open_p)}\n"
-        f"Заказы: {fmt_int(orders_y)} {trend_icon(orders_y, orders_p)} {fmt_delta(orders_y, orders_p)}\n"
+        f"*Отчет за {dt_y} (вчера)*\n\n"
+        f"*WB*\n"
+        f"*Переходы:* *{fmt_int(open_y)}* {trend_icon(open_y, open_p)} {fmt_delta(open_y, open_p)}\n"
+        f"*Заказы:* *{fmt_int(orders_y)}* {trend_icon(orders_y, orders_p)} {fmt_delta(orders_y, orders_p)}\n"
         f"% заказа (CR): {cr_y:.2f}%\n"
-        f"Реклама: {fmt_money(spend_y)} {trend_icon(spend_y, spend_p)} {fmt_delta(spend_y, spend_p)}\n"
+        f"*Реклама:* *{fmt_money(spend_y)}* {trend_icon(spend_y, spend_p)} {fmt_delta(spend_y, spend_p)}\n"
         f"CPO: {cpo_y:.1f} ₽ {trend_icon(cpo_y, cpo_p)} ({cpo_y - cpo_p:+.1f} ₽)"
     )
 
