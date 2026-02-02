@@ -72,7 +72,7 @@ def make_charts_14d() -> List[str]:
 
         from matplotlib.ticker import MultipleLocator
 
-        ax_top.set_ylim(0, 8000)
+        ax_top.set_ylim(0, 10000)
         ax_top.yaxis.set_major_locator(MultipleLocator(1000))
 
         # ВАЖНО: сначала создаём правую ось
@@ -87,36 +87,40 @@ def make_charts_14d() -> List[str]:
         ax_orders.set_ylabel("Заказы")
 
         # шкала заказов 300-700 с шагом 100
-        ax_orders.set_ylim(300, 700)
+        ax_orders.set_ylim(300, 1000)
         ax_orders.yaxis.set_major_locator(MultipleLocator(100))
 
         ax_top.legend([l_clicks, l_orders], ["Переходы", "Заказы"], loc="upper left", fontsize=10)
 
-        x_last = dates[-1]
+        # --- подписи для КАЖДОЙ точки ---
 
-        # Переходы — над точкой, жирным, чуть меньше
-        ax_top.annotate(
-            f"{clicks[-1]}",
-            xy=(x_last, clicks[-1]),
-            xytext=(0, 10),  # смещение текста
-            textcoords="offset points",
-            ha="center",
-            va="bottom",
-            fontsize=9,  # меньше
-            fontweight="bold"
-        )
+        # Переходы — НАД точкой
+        for x, y in zip(dates, clicks):
+            ax_top.annotate(
+                f"{y}",
+                xy=(x, y),
+                xytext=(0, 8),
+                textcoords="offset points",
+                ha="center",
+                va="bottom",
+                fontsize=8,
+                fontweight="bold",
+                color=COLOR_CLICKS
+            )
 
-        # Заказы — над точкой, жирным, чуть меньше
-        ax_orders.annotate(
-            f"{orders[-1]}",
-            xy=(x_last, orders[-1]),
-            xytext=(0, 10),
-            textcoords="offset points",
-            ha="center",
-            va="bottom",
-            fontsize=9,
-            fontweight="bold"
-        )
+        # Заказы — ПОД точкой
+        for x, y in zip(dates, orders):
+            ax_orders.annotate(
+                f"{y}",
+                xy=(x, y),
+                xytext=(0, -12),
+                textcoords="offset points",
+                ha="center",
+                va="top",
+                fontsize=8,
+                fontweight="bold",
+                color=COLOR_ORDERS
+            )
 
         # --- BOTTOM: Затраты (₽) ---
         if max(spend) == 0.0:
